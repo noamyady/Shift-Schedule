@@ -16,8 +16,8 @@
             background-color: #f4f4f4;
         }
         .schedule-container {
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 800px;
             background: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -36,9 +36,16 @@
             padding: 10px;
             border: 1px solid #ddd;
             text-align: center;
+            vertical-align: middle;
         }
         th {
             background-color: #f7f7f7;
+        }
+        .yellow {
+            background-color: #fde9b8;
+        }
+        .blue {
+            background-color: #c6e2ff;
         }
         .date {
             font-weight: bold;
@@ -48,39 +55,43 @@
 <body>
     <div class="schedule-container">
         <h1>Weekly Shift Schedule</h1>
-        <p class="date">Week of: August 24 - August 30, 2024</p>
         <table>
             <tr>
-                <th>Employee</th>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
+                <th>שבת 31.8</th>
+                <th>שישי 30.8</th>
+                <th>חמישי 29.8</th>
+                <th>רביעי 28.8</th>
+                <th>שלישי 27.8</th>
+                <th>שני 26.8</th>
+                <th>ראשון 25.8</th>
             </tr>
-            <tr>
-                <td>John Doe</td>
-                <td>9 AM - 5 PM</td>
-                <td>9 AM - 5 PM</td>
-                <td>9 AM - 5 PM</td>
-                <td>Off</td>
-                <td>9 AM - 5 PM</td>
-                <td>Off</td>
-                <td>Off</td>
+            <tr class="yellow">
+                <td>נועם ידעי</td>
+                <td>יובל חדד</td>
+                <td>יהלי ברנר</td>
+                <td>גל ורטהיימר</td>
+                <td>עידן טרביס</td>
+                <td>נועם ידעי</td>
+                <td>בר שטלמן<br><small>כפר שמריהו בוקר 7:00 עד 19:00</small></td>
             </tr>
-            <tr>
-                <td>Jane Smith</td>
-                <td>Off</td>
-                <td>9 AM - 5 PM</td>
-                <td>9 AM - 5 PM</td>
-                <td>9 AM - 5 PM</td>
-                <td>Off</td>
-                <td>9 AM - 5 PM</td>
-                <td>Off</td>
+            <tr class="yellow">
+                <td>עומר שחם</td>
+                <td>גל ורטהיימר</td>
+                <td>עומר גוטליב</td>
+                <td>בר שטלמן</td>
+                <td>אביחי שושן</td>
+                <td>דביר אמיתי</td>
+                <td>דביר אמיתי<br><small>כפר שמריהו לילה 19:00 עד 7:00</small></td>
             </tr>
-            <!-- Add more rows as needed -->
+            <tr class="blue">
+                <td>בני בטשולי</td>
+                <td>בני בטשולי</td>
+                <td>בר שטלמן</td>
+                <td>נועם ידעי</td>
+                <td>יובל ידעי</td>
+                <td>הראל דימבורט</td>
+                <td>גלעד אליאס<br><small>מבסרת ציון לילה 19:00 עד 7:00</small></td>
+            </tr>
         </table>
     </div>
 </body>

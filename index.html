@@ -154,7 +154,8 @@
 
     <script>
 function highlightCurrentShift() {
-    const now = new Date();
+    // Get current time in Israel (GMT+3)
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
     const currentHour = now.getHours();
     const currentDay = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
@@ -194,6 +195,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
 
 
     </script>

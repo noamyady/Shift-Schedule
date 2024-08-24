@@ -166,28 +166,14 @@ function highlightCurrentShift() {
     const morningShiftStart = 7;
     const morningShiftEnd = 19;
     const nightShiftStart = 19;
-    const nightShiftEnd = 7;
+    const nightShiftEnd = 7; // Until 7 AM the next day
 
-    // Clear any previous highlights
-    document.querySelectorAll('.current-shift').forEach(element => {
-        element.classList.remove('current-shift');
-    });
-
-    // Function to highlight the correct shift in a given table
-    function highlightCurrentShift() {
-    // Get the current time in Israel's time zone
-    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
-    const israelTime = new Date(now);
-
-    // Extract current hour and day in Israel time
-    const currentHour = israelTime.getHours();
-    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-
-    // Define shift times
-    const morningShiftStart = 7;
-    const morningShiftEnd = 19;
-    const nightShiftStart = 19;
-    const nightShiftEnd = 7; // Next morning
+    // Adjust the current day for the night shift
+    let currentDayAdjusted = currentDay;
+    if (currentHour < nightShiftEnd) {
+        // If it's between midnight and 7 AM, adjust to the previous day
+        currentDayAdjusted = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly
+    }
 
     // Clear any previous highlights
     document.querySelectorAll('.current-shift').forEach(element => {
@@ -197,12 +183,6 @@ function highlightCurrentShift() {
     // Function to highlight the correct shift in a given table
     function highlightShiftInTable(weekNumber) {
         let highlighted = false;
-        let currentDayAdjusted = currentDay;
-
-        // If the time is past midnight but before 7 AM, we consider it the previous day's night shift
-        if (currentHour < nightShiftEnd) {
-            currentDayAdjusted = (currentDay - 1 + 7) % 7; // Adjust for the previous day, ensuring Sunday (0) moves to Saturday (6)
-        }
 
         if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
             // Highlight the morning shift for the current day
@@ -241,7 +221,6 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
-
     </script>
 </body>
 </html>

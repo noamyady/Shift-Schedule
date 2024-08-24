@@ -163,13 +163,14 @@ function highlightCurrentShift() {
     const morningShiftStart = 7;
     const morningShiftEnd = 19;
     const nightShiftStart = 19;
-    const nightShiftEnd = 7; // Next morning
+    const nightShiftEnd = 7; // Next morning (up to 7 AM)
 
     // Adjust the current day for the night shift
-    let currentDayAdjusted = currentDay;
+    let shiftDay = currentDay;
+
     if (currentHour < nightShiftEnd) {
         // If it's between midnight and 7 AM, adjust to the previous day
-        currentDayAdjusted = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly
+        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly
     }
 
     // Clear any previous highlights
@@ -189,9 +190,9 @@ function highlightCurrentShift() {
                 highlighted = true;
             }
         } else {
-            // Highlight the night shifts for the adjusted current day
-            const nightShiftCell1 = document.querySelector(`#night-shift-${weekNumber * 2 - 1} td:nth-child(${8 - currentDayAdjusted})`);
-            const nightShiftCell2 = document.querySelector(`#night-shift-${weekNumber * 2} td:nth-child(${8 - currentDayAdjusted})`);
+            // Highlight the night shifts for the adjusted shift day
+            const nightShiftCell1 = document.querySelector(`#night-shift-${weekNumber * 2 - 1} td:nth-child(${8 - shiftDay})`);
+            const nightShiftCell2 = document.querySelector(`#night-shift-${weekNumber * 2} td:nth-child(${8 - shiftDay})`);
             if (nightShiftCell1) {
                 nightShiftCell1.classList.add('current-shift');
                 highlighted = true;
@@ -218,6 +219,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
     </script>
 </body>
 </html>

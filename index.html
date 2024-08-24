@@ -172,19 +172,19 @@ function highlightCurrentShift() {
     // Determine the current shift based on time and day
     if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
         // Highlight the morning shift for the current day
-        const morningShiftRow = document.querySelector(`#morning-shift-1 td:nth-child(${8 - currentDay})`);
-        if (morningShiftRow) {
-            morningShiftRow.parentElement.classList.add('current-shift');
+        const morningShiftCell = document.querySelector(`#morning-shift-1 td:nth-child(${8 - currentDay})`);
+        if (morningShiftCell) {
+            morningShiftCell.classList.add('current-shift');
         }
     } else {
-        // Highlight the night shift for the current day
-        const nightShiftRow1 = document.querySelector(`#night-shift-1 td:nth-child(${8 - currentDay})`);
-        const nightShiftRow2 = document.querySelector(`#night-shift-2 td:nth-child(${8 - currentDay})`);
-        if (nightShiftRow1) {
-            nightShiftRow1.parentElement.classList.add('current-shift');
+        // Highlight the night shifts for the current day
+        const nightShiftCell1 = document.querySelector(`#night-shift-1 td:nth-child(${8 - currentDay})`);
+        const nightShiftCell2 = document.querySelector(`#night-shift-2 td:nth-child(${8 - currentDay})`);
+        if (nightShiftCell1) {
+            nightShiftCell1.classList.add('current-shift');
         }
-        if (nightShiftRow2) {
-            nightShiftRow2.parentElement.classList.add('current-shift');
+        if (nightShiftCell2) {
+            nightShiftCell2.classList.add('current-shift');
         }
     }
 }
@@ -194,6 +194,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
 
     </script>
 </body>

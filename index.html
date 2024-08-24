@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Shift Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: auto;
+            background-color: #f4f4f4;
+        }
+        .schedule-container {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #f7f7f7;
+        }
+        .yellow {
+            background-color: #fde9b8;
+        }
+        .blue {
+            background-color: #c6e2ff;
+        }
+        .current-shift {
+            border: 2px solid #ff0000; /* Red border for current shift */
+            background-color: #ffebcc; /* Slightly different background for current shift */
+        }
+        /* New styles for links */
+        a {
+            text-decoration: none; /* Remove underline */
+            color: #333; /* Set a new color for the link text */
+            font-weight: bold; /* Make the link text bold */
+        }
+        a:hover {
+            color: #ff0000; /* Change color on hover */
+        }
+        /* Hide next week table by default */
+        .next-week {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="schedule-container current-week">
+        <h1>משמרות - שבוע נוכחי</h1>
+        <table>
+            <tr>
+                <th>שבת<br> 24.8</th>
+                <th>שישי<br> 23.8</th>
+                <th>חמישי<br> 22.8</th>
+                <th>רביעי<br> 21.8</th>
+                <th>שלישי<br> 20.8</th>
+                <th>שני<br> 19.8</th>
+                <th>ראשון<br> 18.8</th>
+                <th>משמרות</th>
+            </tr>
+            <tr id="morning-shift-1" class="yellow">
+                <td><a href="https://wa.me/972509811274" target="_blank">אמיר<br> דאוס</a></td>
+                <td><a href="https://wa.me/972533343459" target="_blank">עומר<br> שחם</a></td>
+                <td><a href="https://wa.me/972503055936" target="_blank">כפיר<br> זיסו</a></td>
+                <td><a href="https://wa.me/972503055936" target="_blank">כפיר<br> זיסו</a></td>
+                <td><a href="https://wa.me/972523543828" target="_blank">גל<br> ורטהיימר</a></td>
+                <td><a href="https://wa.me/972523115171" target="_blank">אביחי<br> שושן</a></td>
+                <td><a href="https://wa.me/972508668158" target="_blank">דביר<br> עמיתי</a></td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> בוקר<br>7:00-19:00</td>
+            </tr>
+            <tr id="night-shift-1" class="yellow">
+                <td><a href="https://wa.me/972528622957" target="_blank">עמרי<br> צוק-בר</a></td>
+                <td><a href="https://wa.me/972523543828" target="_blank">גל<br> ורטהיימר</a></td>
+                <td><a href="https://wa.me/972526837999" target="_blank">עידן<br> טרביס</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td><a href="https://wa.me/972526036426" target="_blank">עומר<br> גוטליב</a></td>
+                <td><a href="https://wa.me/972508270884" target="_blank">דולב<br> שילן</a></td>
+                <td><a href="https://wa.me/972526036426" target="_blank">עומר<br> גוטליב</a></td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
+            </tr>
+            <tr id="night-shift-2" class="blue">
+                <td><a href="https://wa.me/972556668848" target="_blank">נועם<br> ידעי</a></td>
+                <td><a href="https://wa.me/972556668848" target="_blank">נועם<br> ידעי</a></td>
+                <td><a href="https://wa.me/972546686466" target="_blank">הראל<br> דימבורט</a></td>
+                <td><a href="https://wa.me/972502150408" target="_blank">יובל<br> ידעי</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td><a href="https://wa.me/972545529971" target="_blank">בני<br> בטשוילי</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td rowspan="1" class="blue">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Second Week's Schedule -->
+    <div class="schedule-container next-week">
+        <h1>משמרות - שבוע הבא</h1>
+        <table>
+            <tr>
+                <th>שבת<br> 31.8</th>
+                <th>שישי<br> 30.8</th>
+                <th>חמישי<br> 29.8</th>
+                <th>רביעי<br> 28.8</th>
+                <th>שלישי<br> 27.8</th>
+                <th>שני<br> 26.8</th>
+                <th>ראשון<br> 25.8</th>
+                <th>משמרות</th>
+            </tr>
+            <tr id="morning-shift-2" class="yellow">
+                <td><a href="https://wa.me/972556668848" target="_blank">נועם<br> ידעי</a></td>
+                <td><a href="https://wa.me/972547849584" target="_blank">יובל<br> חדד</a></td>
+                <td><a href="https://wa.me/972544542223" target="_blank">יהלי<br> ברנר</a></td>
+                <td><a href="https://wa.me/972523543828" target="_blank">גל<br> ורטהיימר</a></td>
+                <td><a href="https://wa.me/972526837999" target="_blank">עידן<br> טרביס</a></td>
+                <td><a href="https://wa.me/972556668848" target="_blank">נועם<br> ידעי</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> בוקר<br>7:00-19:00</td>
+            </tr>
+            <tr id="night-shift-3" class="yellow">
+                <td><a href="https://wa.me/972533343459" target="_blank">עומר<br> שחם</a></td>
+                <td><a href="https://wa.me/972523543828" target="_blank">גל<br> ורטהיימר</a></td>
+                <td><a href="https://wa.me/972526036426" target="_blank">עומר<br> גוטליב</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td><a href="https://wa.me/972523115171" target="_blank">אביחי<br> שושן</a></td>
+                <td><a href="https://wa.me/972508668158" target="_blank">דביר<br> עמיתי</a></td>
+                <td><a href="https://wa.me/972508668158" target="_blank">דביר<br> עמיתי</a></td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
+            </tr>
+            <tr id="night-shift-4" class="blue">
+                <td><a href="https://wa.me/972545529971" target="_blank">בני<br> בטשוילי</a></td>
+                <td><a href="https://wa.me/972545529971" target="_blank">בני<br> בטשוילי</a></td>
+                <td><a href="https://wa.me/972542550534" target="_blank">בר<br> שטלמן</a></td>
+                <td><a href="https://wa.me/972556668848" target="_blank">נועם<br> ידעי</a></td>
+                <td><a href="https://wa.me/972502150408" target="_blank">יובל<br> ידעי</a></td>
+                <td><a href="https://wa.me/972546686466" target="_blank">הראל<br> דימבורט</a></td>
+                <td><a href="https://wa.me/972509262682" target="_blank">גלעד<br> אליאסי</a></td>
+                <td rowspan="1" class="blue">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+function highlightCurrentShift() {
+    // Get the current time in Israel's time zone
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+
+    // Extract current hour and day in Israel time
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Define shift times
+    const morningShiftStart = 7;
+    const morningShiftEnd = 19;
+
+    // Adjust for the correct day for the night shift
+    let shiftDay = currentDay;
+
+    if (currentHour < morningShiftStart) {
+        // If it's between midnight and 7 AM, adjust to highlight the previous day's night shift
+        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly to Saturday if it's Sunday
+    }
+
+    // Calculate the table column index based on the shiftDay
+    const dayColumnIndex = 7 - shiftDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
+
+    // Clear any previous highlights
+    document.querySelectorAll('.current-shift').forEach(element => {
+        element.classList.remove('current-shift');
+    });
+
+    // Determine which shifts to highlight
+    let shiftRowId1, shiftRowId2;
+    if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
+        // Morning shift (07:00 - 18:59)
+        shiftRowId1 = `morning-shift-1`;
+    } else {
+        // Night shift (19:00 - 06:59)
+        shiftRowId1 = `night-shift-1`;
+        shiftRowId2 = `night-shift-2`; // This handles the second concurrent night shift
+    }
+
+    // Highlight the correct cells in the first table (for the current week)
+    const shiftCell1 = document.querySelector(`#${shiftRowId1} td:nth-child(${dayColumnIndex})`);
+    if (shiftCell1) {
+        shiftCell1.classList.add('current-shift');
+    }
+
+    // Highlight the second night shift if applicable
+    if (shiftRowId2) {
+        const shiftCell2 = document.querySelector(`#${shiftRowId2} td:nth-child(${dayColumnIndex})`);
+        if (shiftCell2) {
+            shiftCell2.classList.add('current-shift');
+        }
+    }
+}
+
+// Function to copy the "Next Week" table to "Current Week" table and hide "Next Week" during specified times
+function updateTablesBasedOnTime() {
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Check if the time is between Sunday 7:00 AM and Wednesday 8:00 PM
+    const isBetweenSunday7AMAndWednesday8PM = (currentDay === 0 && currentHour >= 7) || // Sunday after 7 AM
+                                               (currentDay > 0 && currentDay < 3) || // Monday to Tuesday
+                                               (currentDay === 3 && currentHour < 20); // Wednesday before 8 PM
+
+    if (isBetweenSunday7AMAndWednesday8PM) {
+        // Copy the "Next Week" table content
+        const nextWeekTable = document.querySelector('.next-week').innerHTML;
+        document.querySelector('.current-week').innerHTML = nextWeekTable;
+
+        // Hide the "Next Week" container
+        document.querySelector('.next-week').style.display = 'none';
+    }
+}
+
+// Call the functions initially
+highlightCurrentShift();
+updateTablesBasedOnTime();
+
+// Optional: Refresh the check every 10 minutes
+setInterval(() => {
+    highlightCurrentShift();
+    updateTablesBasedOnTime();
+}, 10 * 60 * 1000);
+
+    </script>
+</body>
+</html>

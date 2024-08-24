@@ -163,8 +163,16 @@ function highlightCurrentShift() {
     const morningShiftStart = 7;
     const morningShiftEnd = 19;
 
-    // Calculate the table column index based on currentDay
-    const dayColumnIndex = 7 - currentDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
+    // Adjust for the correct day for the night shift
+    let shiftDay = currentDay;
+
+    if (currentHour < morningShiftStart) {
+        // If it's between midnight and 7 AM, adjust to highlight the previous day's night shift
+        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly to Saturday if it's Sunday
+    }
+
+    // Calculate the table column index based on the shiftDay
+    const dayColumnIndex = 7 - shiftDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
 
     // Clear any previous highlights
     document.querySelectorAll('.current-shift').forEach(element => {
@@ -179,13 +187,9 @@ function highlightCurrentShift() {
     } else {
         // Night shift (19:00 - 06:59)
         shiftRowId = `night-shift-1`;
-        // Adjust for the night shift falling on the previous day
-        if (currentHour < morningShiftStart) {
-            dayColumnIndex = 7 - ((currentDay - 1 + 7) % 7); // Correct the column for times between midnight and 06:59
-        }
     }
 
-    // Highlight the correct cell
+    // Highlight the correct cell in the first table (for the current week)
     const shiftCell = document.querySelector(`#${shiftRowId} td:nth-child(${dayColumnIndex})`);
     if (shiftCell) {
         shiftCell.classList.add('current-shift');
@@ -197,6 +201,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every 10 minutes
 setInterval(highlightCurrentShift, 10 * 60 * 1000);
+
     </script>
 </body>
 </html>

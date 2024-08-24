@@ -157,60 +157,34 @@ function highlightCurrentShift() {
 
     // Extract current hour and day in Israel time
     const currentHour = israelTime.getHours();
-    const currentDay = israelTime.getDay()+1; // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
     // Define shift times
     const morningShiftStart = 7;
     const morningShiftEnd = 19;
-    const nightShiftStart = 19;
-    const nightShiftEnd = 7; // Next morning (up to 7 AM)
 
-    // Adjust the current day for the night shift
-    let shiftDay = currentDay;
-
-    if (currentHour < nightShiftEnd) {
-        // If it's between midnight and 7 AM, adjust to the previous day
-        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly
-    }
+    // Calculate the table column index based on currentDay
+    const dayColumnIndex = 7 - currentDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
 
     // Clear any previous highlights
     document.querySelectorAll('.current-shift').forEach(element => {
         element.classList.remove('current-shift');
     });
 
-    // Function to highlight the correct shift in a given table
-    function highlightShiftInTable(weekNumber) {
-        let highlighted = false;
-
-        if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
-            // Highlight the morning shift for the current day
-            const morningShiftCell = document.querySelector(`#morning-shift-${weekNumber} td:nth-child(${8 - currentDay})`);
-            if (morningShiftCell) {
-                morningShiftCell.classList.add('current-shift');
-                highlighted = true;
-            }
-        } else {
-            // Highlight the night shifts for the adjusted shift day
-            const nightShiftCell1 = document.querySelector(`#night-shift-${weekNumber * 2 - 1} td:nth-child(${8 - shiftDay})`);
-            const nightShiftCell2 = document.querySelector(`#night-shift-${weekNumber * 2} td:nth-child(${8 - shiftDay})`);
-            if (nightShiftCell1) {
-                nightShiftCell1.classList.add('current-shift');
-                highlighted = true;
-            }
-            if (nightShiftCell2) {
-                nightShiftCell2.classList.add('current-shift');
-                highlighted = true;
-            }
-        }
-        return highlighted;
+    // Determine which shift to highlight
+    let shiftRowId;
+    if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
+        // Morning shift
+        shiftRowId = `morning-shift-1`;
+    } else {
+        // Night shift
+        shiftRowId = `night-shift-1`;
     }
 
-    // First, try to highlight in the current week's table
-    let highlighted = highlightShiftInTable(1);
-
-    // If no shift was highlighted and it's a future day, check the next week's table
-    if (!highlighted && currentDay <= 6) {
-        highlightShiftInTable(2);
+    // Highlight the correct cell
+    const shiftCell = document.querySelector(`#${shiftRowId} td:nth-child(${dayColumnIndex})`);
+    if (shiftCell) {
+        shiftCell.classList.add('current-shift');
     }
 }
 
@@ -219,6 +193,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
 
     </script>
 </body>

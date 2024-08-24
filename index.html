@@ -12,7 +12,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            flex-direction: column;
+            height: auto;
             background-color: #f4f4f4;
         }
         .schedule-container {
@@ -20,6 +21,7 @@
             max-width: 800px;
             background: #fff;
             padding: 20px;
+            margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
@@ -100,6 +102,54 @@
         </table>
     </div>
 
+    <!-- Second Week's Schedule -->
+    <div class="schedule-container">
+        <h1>Next Week's Shift Schedule</h1>
+        <p class="date">Week of: <span id="next-week-range"></span></p>
+        <table>
+            <tr>
+                <th>שבת<br> 7.9</th>
+                <th>שישי<br> 6.9</th>
+                <th>חמישי<br> 5.9</th>
+                <th>רביעי<br> 4.9</th>
+                <th>שלישי<br> 3.9</th>
+                <th>שני<br> 2.9</th>
+                <th>ראשון<br> 1.9</th>
+                <th>משמרות</th>
+            </tr>
+            <tr class="yellow">
+                <td>דוד<br> כהן</td>
+                <td>יוסי<br> לוי</td>
+                <td>אלי<br> אברג'ל</td>
+                <td>משה<br> ישראל</td>
+                <td>אבי<br> שמש</td>
+                <td>יוסי<br> דן</td>
+                <td>מאיר<br> אבידן</td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> בוקר<br>7:00-19:00</td>
+            </tr>
+            <tr class="yellow">
+                <td>יוני<br> כהן</td>
+                <td>דני<br> ברוך</td>
+                <td>אבי<br> שמש</td>
+                <td>מאיר<br> אבידן</td>
+                <td>דוד<br> כהן</td>
+                <td>דני<br> ברוך</td>
+                <td>אלי<br> אברג'ל</td>
+                <td rowspan="1" class="yellow">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+            </tr>
+            <tr class="blue">
+                <td>איתן<br> גולן</td>
+                <td>יוסי<br> לוי</td>
+                <td>משה<br> ישראל</td>
+                <td>דוד<br> כהן</td>
+                <td>מאיר<br> אבידן</td>
+                <td>יוסי<br> דן</td>
+                <td>אלי<br> אברג'ל</td>
+                <td rowspan="1" class="blue">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+            </tr>
+        </table>
+    </div>
+
     <script>
         const startOfWeek = new Date();
         startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
@@ -109,6 +159,13 @@
         
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('week-range').textContent = `${startOfWeek.toLocaleDateString('en-US', options)} - ${endOfWeek.toLocaleDateString('en-US', options)}`;
+
+        const nextWeekStart = new Date(startOfWeek);
+        nextWeekStart.setDate(nextWeekStart.getDate() + 7);
+        const nextWeekEnd = new Date(endOfWeek);
+        nextWeekEnd.setDate(nextWeekEnd.getDate() + 7);
+
+        document.getElementById('next-week-range').textContent = `${nextWeekStart.toLocaleDateString('en-US', options)} - ${nextWeekEnd.toLocaleDateString('en-US', options)}`;
     </script>
 </body>
 </html>

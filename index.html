@@ -155,13 +155,12 @@
     <script>
 function highlightCurrentShift() {
     // Get the current time in Israel's time zone
-    const now = new Date();
-    const options = { timeZone: 'Asia/Jerusalem', hour: '2-digit', hour12: false, day: 'numeric', weekday: 'numeric' };
-    const israelTime = new Intl.DateTimeFormat('en-US', options).formatToParts(now);
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
 
-    // Extract the relevant parts
-    const currentHour = parseInt(israelTime.find(part => part.type === 'hour').value);
-    const currentDay = parseInt(israelTime.find(part => part.type === 'weekday').value); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    // Extract current hour and day in Israel time
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
     // Define shift times
     const morningShiftStart = 7;
@@ -199,6 +198,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
 
 
 

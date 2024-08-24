@@ -174,8 +174,36 @@ function highlightCurrentShift() {
     });
 
     // Function to highlight the correct shift in a given table
+    function highlightCurrentShift() {
+    // Get the current time in Israel's time zone
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+
+    // Extract current hour and day in Israel time
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Define shift times
+    const morningShiftStart = 7;
+    const morningShiftEnd = 19;
+    const nightShiftStart = 19;
+    const nightShiftEnd = 7; // Next morning
+
+    // Clear any previous highlights
+    document.querySelectorAll('.current-shift').forEach(element => {
+        element.classList.remove('current-shift');
+    });
+
+    // Function to highlight the correct shift in a given table
     function highlightShiftInTable(weekNumber) {
         let highlighted = false;
+        let currentDayAdjusted = currentDay;
+
+        // If the time is past midnight but before 7 AM, we consider it the previous day's night shift
+        if (currentHour < nightShiftEnd) {
+            currentDayAdjusted = (currentDay - 1 + 7) % 7; // Adjust for the previous day, ensuring Sunday (0) moves to Saturday (6)
+        }
+
         if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
             // Highlight the morning shift for the current day
             const morningShiftCell = document.querySelector(`#morning-shift-${weekNumber} td:nth-child(${8 - currentDay})`);
@@ -184,9 +212,9 @@ function highlightCurrentShift() {
                 highlighted = true;
             }
         } else {
-            // Highlight the night shifts for the current day
-            const nightShiftCell1 = document.querySelector(`#night-shift-${weekNumber * 2 - 1} td:nth-child(${8 - currentDay})`);
-            const nightShiftCell2 = document.querySelector(`#night-shift-${weekNumber * 2} td:nth-child(${8 - currentDay})`);
+            // Highlight the night shifts for the adjusted current day
+            const nightShiftCell1 = document.querySelector(`#night-shift-${weekNumber * 2 - 1} td:nth-child(${8 - currentDayAdjusted})`);
+            const nightShiftCell2 = document.querySelector(`#night-shift-${weekNumber * 2} td:nth-child(${8 - currentDayAdjusted})`);
             if (nightShiftCell1) {
                 nightShiftCell1.classList.add('current-shift');
                 highlighted = true;
@@ -213,6 +241,7 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every hour
 setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
     </script>
 </body>
 </html>

@@ -51,7 +51,7 @@
         }
         .current-shift {
             border: 2px solid #ff0000; /* Red border for current shift */
-            background-color: #ffebcc; /* Slightly different background for current shift */
+            background-color: #4c463d; /* Slightly different background for current shift */
         }
         /* New styles for links */
         a {
@@ -62,10 +62,14 @@
         a:hover {
             color: #ff0000; /* Change color on hover */
         }
+        /* Hide next week table by default */
+        .next-week {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="schedule-container">
+    <div class="schedule-container current-week">
         <h1>משמרות - שבוע נוכחי</h1>
         <table>
             <tr>
@@ -112,7 +116,7 @@
     </div>
 
     <!-- Second Week's Schedule -->
-    <div class="schedule-container">
+    <div class="schedule-container next-week">
         <h1>משמרות - שבוע הבא</h1>
         <table>
             <tr>
@@ -214,11 +218,33 @@ function highlightCurrentShift() {
     }
 }
 
-// Call the function initially
+// Function to copy the "Next Week" table to "Current Week" table and hide "Next Week" only on Sundays at 7 AM
+function updateTablesOnSunday7AM() {
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    if (currentDay === 0 && currentHour === 7) {
+        // Copy the "Next Week" table content
+        const nextWeekTable = document.querySelector('.next-week').innerHTML;
+        document.querySelector('.current-week').innerHTML = nextWeekTable;
+
+        // Hide the "Next Week" container
+        document.querySelector('.next-week').style.display = 'none';
+    }
+}
+
+// Call the functions initially
 highlightCurrentShift();
+updateTablesOnSunday7AM();
 
 // Optional: Refresh the check every 10 minutes
-setInterval(highlightCurrentShift, 10 * 60 * 1000);
+setInterval(() => {
+    highlightCurrentShift();
+    updateTablesOnSunday7AM();
+}, 10 * 60 * 1000);
+
     </script>
 </body>
 </html>

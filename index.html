@@ -49,9 +49,6 @@
         .blue {
             background-color: #c6e2ff;
         }
-        .date {
-            font-weight: bold;
-        }
         .current-shift {
             border: 2px solid #ff0000; /* Red border for current shift */
             background-color: #ffebcc; /* Slightly different background for current shift */
@@ -166,7 +163,7 @@ function highlightCurrentShift() {
     const morningShiftStart = 7;
     const morningShiftEnd = 19;
     const nightShiftStart = 19;
-    const nightShiftEnd = 7; // Until 7 AM the next day
+    const nightShiftEnd = 7; // Next morning
 
     // Adjust the current day for the night shift
     let currentDayAdjusted = currentDay;

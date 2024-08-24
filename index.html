@@ -52,6 +52,10 @@
         .date {
             font-weight: bold;
         }
+        .current-shift {
+            border: 2px solid #ff0000; /* Red border for current shift */
+            background-color: #ffebcc; /* Slightly different background for current shift */
+        }
     </style>
 </head>
 <body>
@@ -59,16 +63,16 @@
         <h1>משמרות - שבוע נוכחי</h1>
         <table>
             <tr>
-                <th>שבת<br> 31.8</th>
-                <th>שישי<br> 30.8</th>
-                <th>חמישי<br> 29.8</th>
-                <th>רביעי<br> 28.8</th>
-                <th>שלישי<br> 27.8</th>
-                <th>שני<br> 26.8</th>
-                <th>ראשון<br> 25.8</th>
+                <th>שבת<br> 24.8</th>
+                <th>שישי<br> 23.8</th>
+                <th>חמישי<br> 22.8</th>
+                <th>רביעי<br> 21.8</th>
+                <th>שלישי<br> 20.8</th>
+                <th>שני<br> 19.8</th>
+                <th>ראשון<br> 18.8</th>
                 <th>משמרות</th>
             </tr>
-            <tr class="yellow">
+            <tr id="morning-shift-1" class="yellow">
                 <td>נועם<br> ידעי</td>
                 <td>יובל<br> חדד</td>
                 <td>יהלי<br> ברנר</td>
@@ -78,7 +82,7 @@
                 <td>בר<br> שטלמן</td>
                 <td rowspan="1" class="yellow">כפר שמריהו<br> בוקר<br>7:00-19:00</td>
             </tr>
-            <tr class="yellow">
+            <tr id="night-shift-1" class="yellow">
                 <td>עומר<br> שחם</td>
                 <td>גל<br> ורטהיימר</td>
                 <td>עומר<br> גוטליב</td>
@@ -88,7 +92,7 @@
                 <td>דביר<br> אמיתי</td>
                 <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
             </tr>
-            <tr class="blue">
+            <tr id="night-shift-2" class="blue">
                 <td>בני<br> בטשולי</td>
                 <td>בני<br> בטשולי</td>
                 <td>בר<br> שטלמן</td>
@@ -106,16 +110,16 @@
         <h1>משמרות - שבוע הבא</h1>
         <table>
             <tr>
-                <th>שבת<br> 7.9</th>
-                <th>שישי<br> 6.9</th>
-                <th>חמישי<br> 5.9</th>
-                <th>רביעי<br> 4.9</th>
-                <th>שלישי<br> 3.9</th>
-                <th>שני<br> 2.9</th>
-                <th>ראשון<br> 1.9</th>
+                <th>שבת<br> 31.8</th>
+                <th>שישי<br> 30.8</th>
+                <th>חמישי<br> 29.8</th>
+                <th>רביעי<br> 28.8</th>
+                <th>שלישי<br> 27.8</th>
+                <th>שני<br> 26.8</th>
+                <th>ראשון<br> 25.8</th>
                 <th>משמרות</th>
             </tr>
-            <tr class="yellow">
+            <tr id="morning-shift-2" class="yellow">
                 <td>דוד<br> כהן</td>
                 <td>יוסי<br> לוי</td>
                 <td>אלי<br> אברג'ל</td>
@@ -125,7 +129,7 @@
                 <td>מאיר<br> אבידן</td>
                 <td rowspan="1" class="yellow">כפר שמריהו<br> בוקר<br>7:00-19:00</td>
             </tr>
-            <tr class="yellow">
+            <tr id="night-shift-3" class="yellow">
                 <td>יוני<br> כהן</td>
                 <td>דני<br> ברוך</td>
                 <td>אבי<br> שמש</td>
@@ -135,7 +139,7 @@
                 <td>אלי<br> אברג'ל</td>
                 <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
             </tr>
-            <tr class="blue">
+            <tr id="night-shift-4" class="blue">
                 <td>איתן<br> גולן</td>
                 <td>יוסי<br> לוי</td>
                 <td>משה<br> ישראל</td>
@@ -148,5 +152,49 @@
         </table>
     </div>
 
+    <script>
+function highlightCurrentShift() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentDay = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Define shift times
+    const morningShiftStart = 7;
+    const morningShiftEnd = 19;
+    const nightShiftStart = 19;
+    const nightShiftEnd = 7;
+
+    // Clear any previous highlights
+    document.querySelectorAll('.current-shift').forEach(element => {
+        element.classList.remove('current-shift');
+    });
+
+    // Determine the current shift based on time and day
+    if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
+        // Highlight the morning shift for the current day
+        const morningShiftRow = document.querySelector(`#morning-shift-1 td:nth-child(${8 - currentDay})`);
+        if (morningShiftRow) {
+            morningShiftRow.parentElement.classList.add('current-shift');
+        }
+    } else {
+        // Highlight the night shift for the current day
+        const nightShiftRow1 = document.querySelector(`#night-shift-1 td:nth-child(${8 - currentDay})`);
+        const nightShiftRow2 = document.querySelector(`#night-shift-2 td:nth-child(${8 - currentDay})`);
+        if (nightShiftRow1) {
+            nightShiftRow1.parentElement.classList.add('current-shift');
+        }
+        if (nightShiftRow2) {
+            nightShiftRow2.parentElement.classList.add('current-shift');
+        }
+    }
+}
+
+// Call the function initially
+highlightCurrentShift();
+
+// Optional: Refresh the check every hour
+setInterval(highlightCurrentShift, 60 * 60 * 1000);
+
+    </script>
 </body>
 </html>

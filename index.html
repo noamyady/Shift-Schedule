@@ -56,8 +56,7 @@
 </head>
 <body>
     <div class="schedule-container">
-        <h1>Weekly Shift Schedule</h1>
-        <p class="date">Week of: <span id="week-range"></span></p>
+        <h1>משמרות - שבוע נוכחי</h1>
         <table>
             <tr>
                 <th>שבת<br> 31.8</th>
@@ -87,7 +86,7 @@
                 <td>אביחי<br> שושן</td>
                 <td>דביר<br> אמיתי</td>
                 <td>דביר<br> אמיתי</td>
-                <td rowspan="1" class="yellow">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
             </tr>
             <tr class="blue">
                 <td>בני<br> בטשולי</td>
@@ -105,7 +104,6 @@
     <!-- Second Week's Schedule -->
     <div class="schedule-container">
         <h1>Next Week's Shift Schedule</h1>
-        <p class="date">Week of: <span id="next-week-range"></span></p>
         <table>
             <tr>
                 <th>שבת<br> 7.9</th>
@@ -135,7 +133,7 @@
                 <td>דוד<br> כהן</td>
                 <td>דני<br> ברוך</td>
                 <td>אלי<br> אברג'ל</td>
-                <td rowspan="1" class="yellow">מבשרת ציון<br> לילה<br>19:00-7:00</td>
+                <td rowspan="1" class="yellow">כפר שמריהו<br> לילה<br>19:00-7:00</td>
             </tr>
             <tr class="blue">
                 <td>איתן<br> גולן</td>
@@ -150,22 +148,5 @@
         </table>
     </div>
 
-    <script>
-        const startOfWeek = new Date();
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-        
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(endOfWeek.getDate() + 6);
-        
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('week-range').textContent = `${startOfWeek.toLocaleDateString('en-US', options)} - ${endOfWeek.toLocaleDateString('en-US', options)}`;
-
-        const nextWeekStart = new Date(startOfWeek);
-        nextWeekStart.setDate(nextWeekStart.getDate() + 7);
-        const nextWeekEnd = new Date(endOfWeek);
-        nextWeekEnd.setDate(nextWeekEnd.getDate() + 7);
-
-        document.getElementById('next-week-range').textContent = `${nextWeekStart.toLocaleDateString('en-US', options)} - ${nextWeekEnd.toLocaleDateString('en-US', options)}`;
-    </script>
 </body>
 </html>

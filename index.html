@@ -179,20 +179,29 @@ function highlightCurrentShift() {
         element.classList.remove('current-shift');
     });
 
-    // Determine which shift to highlight
-    let shiftRowId;
+    // Determine which shifts to highlight
+    let shiftRowId1, shiftRowId2;
     if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
         // Morning shift (07:00 - 18:59)
-        shiftRowId = `morning-shift-1`;
+        shiftRowId1 = `morning-shift-1`;
     } else {
         // Night shift (19:00 - 06:59)
-        shiftRowId = `night-shift-1`;
+        shiftRowId1 = `night-shift-1`;
+        shiftRowId2 = `night-shift-2`; // This handles the second concurrent night shift
     }
 
-    // Highlight the correct cell in the first table (for the current week)
-    const shiftCell = document.querySelector(`#${shiftRowId} td:nth-child(${dayColumnIndex})`);
-    if (shiftCell) {
-        shiftCell.classList.add('current-shift');
+    // Highlight the correct cells in the first table (for the current week)
+    const shiftCell1 = document.querySelector(`#${shiftRowId1} td:nth-child(${dayColumnIndex})`);
+    if (shiftCell1) {
+        shiftCell1.classList.add('current-shift');
+    }
+
+    // Highlight the second night shift if applicable
+    if (shiftRowId2) {
+        const shiftCell2 = document.querySelector(`#${shiftRowId2} td:nth-child(${dayColumnIndex})`);
+        if (shiftCell2) {
+            shiftCell2.classList.add('current-shift');
+        }
     }
 }
 
@@ -201,7 +210,6 @@ highlightCurrentShift();
 
 // Optional: Refresh the check every 10 minutes
 setInterval(highlightCurrentShift, 10 * 60 * 1000);
-
     </script>
 </body>
 </html>

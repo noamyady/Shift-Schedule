@@ -157,7 +157,7 @@ function highlightCurrentShift() {
 
     // Extract current hour and day in Israel time
     const currentHour = israelTime.getHours();
-    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+    const currentDay = israelTime.getDay()+1; // Sunday = 0, Monday = 1, ..., Saturday = 6
 
     // Define shift times
     const morningShiftStart = 7;

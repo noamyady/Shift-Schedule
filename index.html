@@ -51,7 +51,7 @@
         }
         .current-shift {
             border: 2px solid #ff0000; /* Red border for current shift */
-            background-color: #c9ffb2; /* Slightly different background for current shift */
+            background-color: #ffebcc; /* Slightly different background for current shift */
         }
         /* New styles for links */
         a {
@@ -62,10 +62,14 @@
         a:hover {
             color: #ff0000; /* Change color on hover */
         }
+        /* Hide next week table by default */
+        .next-week {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="schedule-container">
+    <div class="schedule-container current-week">
         <h1>משמרות - שבוע נוכחי</h1>
         <table>
             <tr>
@@ -112,7 +116,7 @@
     </div>
 
     <!-- Second Week's Schedule -->
-    <div class="schedule-container">
+    <div class="schedule-container next-week">
         <h1>משמרות - שבוע הבא</h1>
         <table>
             <tr>
@@ -214,11 +218,38 @@ function highlightCurrentShift() {
     }
 }
 
-// Call the function initially
+// Function to copy the "Next Week" table to "Current Week" table and hide "Next Week" during specified times
+function updateTablesBasedOnTime() {
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Check if the time is between Sunday 7:00 AM and Wednesday 8:00 PM
+    const isBetweenSunday7AMAndWednesday8PM = (currentDay === 0 && currentHour >= 7) || // Sunday after 7 AM
+                                               (currentDay > 0 && currentDay < 3) || // Monday to Tuesday
+                                               (currentDay === 3 && currentHour < 20); // Wednesday before 8 PM
+
+    if (isBetweenSunday7AMAndWednesday8PM) {
+        // Copy the "Next Week" table content
+        const nextWeekTable = document.querySelector('.next-week').innerHTML;
+        document.querySelector('.current-week').innerHTML = nextWeekTable;
+
+        // Hide the "Next Week" container
+        document.querySelector('.next-week').style.display = 'none';
+    }
+}
+
+// Call the functions initially
 highlightCurrentShift();
+updateTablesBasedOnTime();
 
 // Optional: Refresh the check every 10 minutes
-setInterval(highlightCurrentShift, 10 * 60 * 1000);
+setInterval(() => {
+    highlightCurrentShift();
+    updateTablesBasedOnTime();
+}, 10 * 60 * 1000);
+
     </script>
 </body>
 </html>

@@ -158,60 +158,7 @@
     </div>
 
     <script>
-function highlightCurrentShift() {
-    // Get the current time in Israel's time zone
-    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
-    const israelTime = new Date(now);
 
-    // Extract current hour, date, and day in Israel time
-    const currentHour = israelTime.getHours();
-    const currentDate = israelTime.getDate(); // Get the current date of the month
-    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-
-    // Determine the shift type (morning or night)
-    let isMorningShift = currentHour >= 7 && currentHour < 19;
-
-    // Determine which table to highlight based on the date
-    let tableIdPrefix;
-    if (currentDate >= 18 && currentDate <= 24) {
-        tableIdPrefix = '1';  // First week
-    } else if (currentDate >= 25 && currentDate <= 31) {
-        tableIdPrefix = '2';  // Second week
-    } else {
-        // If the current date is out of range, do nothing
-        return;
-    }
-
-    // Calculate the column index for the current day (maps Sunday to the last column)
-    const dayColumnIndex = 7 - currentDay;
-
-    // Clear any previous highlights
-    document.querySelectorAll('.current-shift').forEach(element => {
-        element.classList.remove('current-shift');
-    });
-
-    // Highlight the current "כפר שמריהו" shift
-    const kfarShiftId = isMorningShift ? `morning-shift-${tableIdPrefix}` : `night-shift-${tableIdPrefix}`;
-    const kfarCell = document.querySelector(`#${kfarShiftId} td:nth-child(${dayColumnIndex})`);
-    if (kfarCell) {
-        kfarCell.classList.add('current-shift');
-    }
-
-    // Highlight the current "מבשרת ציון" shift only if it's a night shift
-    if (!isMorningShift) {
-        const mevaseretShiftId = tableIdPrefix === '1' ? 'night-shift-2' : 'night-shift-4';
-        const mevaseretCell = document.querySelector(`#${mevaseretShiftId} td:nth-child(${dayColumnIndex})`);
-        if (mevaseretCell) {
-            mevaseretCell.classList.add('current-shift');
-        }
-    }
-}
-
-// Call the function initially
-highlightCurrentShift();
-
-// Optional: Refresh the check every 10 minutes
-setInterval(highlightCurrentShift, 10 * 60 * 1000);
     </script>
 </body>
 </html>

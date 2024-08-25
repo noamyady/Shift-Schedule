@@ -212,7 +212,7 @@ function highlightCurrentShift() {
     } else {
         // Night shift (19:00 - 06:59)
         shiftRowId1 = `night-shift-${tableIdPrefix}`;
-        shiftRowId2 = `night-shift-${parseInt(tableIdPrefix) + 1}`; // This handles the second concurrent night shift
+        shiftRowId2 = `night-shift-${tableIdPrefix === '1' ? 3 : 4}`; // Adjusts for the second concurrent night shift correctly for the second week
     }
 
     // Highlight the correct cells in the appropriate table

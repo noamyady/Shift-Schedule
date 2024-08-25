@@ -172,7 +172,7 @@ function copyNextWeekToCurrent() {
     const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
     // Check if the current time is between Sunday 7:00 and Wednesday 20:00
-    if ((currentDay === 0 && currentHour >= 7) || 
+    if ((currentDay === 0 && currentHour >= 3) || 
         (currentDay > 0 && currentDay < 3) || 
         (currentDay === 3 && currentHour <= 20)) {
 

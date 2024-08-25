@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,54 +13,79 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: auto;
+            min-height: 100vh; /* Ensure the body covers the entire viewport height */
             background-color: #f4f4f4;
         }
+
         .schedule-container {
-            width: 90%;
-            max-width: 800px;
+            width: 95%; /* Slightly increase the width for better fit */
+            max-width: 1200px; /* Increase max-width to accommodate larger screens */
             background: #fff;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 14px; /* Reduce font size for better fit */
+            table-layout: fixed; /* Enforces equal column width for consistency */
+            word-wrap: break-word; /* Ensures long text breaks */
         }
+
         th, td {
-            padding: 10px;
+            padding: 8px; /* Reduce padding for better fit */
             border: 1px solid #ddd;
             text-align: center;
             vertical-align: middle;
         }
-        th {
-            background-color: #f7f7f7;
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 1.5em; /* Adjust font size for better readability */
         }
+
         .yellow {
             background-color: #fde9b8;
         }
+
         .blue {
             background-color: #c6e2ff;
         }
+
         .current-shift {
-            border: 2px solid #000000; /* Red border for current shift */
-            background-color: #D4F4DD; /* Slightly different background for current shift */
+            border: 2px solid #000000;
+            background-color: #D4F4DD;
         }
+
         /* New styles for links */
         a {
-            text-decoration: none; /* Remove underline */
-            color: #333; /* Set a new color for the link text */
-            font-weight: bold; /* Make the link text bold */
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
         }
+
         a:hover {
-            color: #ff0000; /* Change color on hover */
+            color: #ff0000;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px; /* Further reduce font size on small screens */
+            }
+
+            th, td {
+                padding: 6px; /* Adjust padding on smaller screens */
+            }
+
+            h1 {
+                font-size: 1.2em; /* Adjust heading size on smaller screens */
+            }
         }
     </style>
 </head>
@@ -161,80 +184,61 @@
     </div>
 
     <script>
-function highlightCurrentShift() {
-    // Get the current time in Israel's time zone
-    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
-    const israelTime = new Date(now);
+        function highlightCurrentShift() {
+            const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+            const israelTime = new Date(now);
 
-    // Extract current hour, date, and day in Israel time
-    const currentHour = israelTime.getHours();
-    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
-    const currentDate = israelTime.getDate(); // Get the current date of the month
+            const currentHour = israelTime.getHours();
+            const currentDay = israelTime.getDay(); 
+            const currentDate = israelTime.getDate();
 
-    // Define shift times
-    const morningShiftStart = 7;
-    const morningShiftEnd = 19;
+            const morningShiftStart = 7;
+            const morningShiftEnd = 19;
 
-    // Adjust for the correct day for the night shift
-    let shiftDay = currentDay;
+            let shiftDay = currentDay;
 
-    if (currentHour < morningShiftStart) {
-        // If it's between midnight and 7 AM, adjust to highlight the previous day's night shift
-        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly to Saturday if it's Sunday
-    }
+            if (currentHour < morningShiftStart) {
+                shiftDay = (currentDay - 1 + 7) % 7;
+            }
 
-    // Determine which table to highlight
-    let tableIdPrefix;
-    if (currentDate >= 18 && currentDate <= 24) {
-        // First week schedule (18-24)
-        tableIdPrefix = '1';
-    } else if (currentDate >= 25 && currentDate <= 31) {
-        // Second week schedule (25-31)
-        tableIdPrefix = '2';
-    } else {
-        // No highlighting if out of range
-        return;
-    }
+            let tableIdPrefix;
+            if (currentDate >= 18 && currentDate <= 24) {
+                tableIdPrefix = '1';
+            } else if (currentDate >= 25 && currentDate <= 31) {
+                tableIdPrefix = '2';
+            } else {
+                return;
+            }
 
-    // Calculate the table column index based on the shiftDay
-    const dayColumnIndex = 7 - shiftDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
+            const dayColumnIndex = 7 - shiftDay;
 
-    // Clear any previous highlights
-    document.querySelectorAll('.current-shift').forEach(element => {
-        element.classList.remove('current-shift');
-    });
+            document.querySelectorAll('.current-shift').forEach(element => {
+                element.classList.remove('current-shift');
+            });
 
-    // Determine which shifts to highlight
-    let shiftRowId1, shiftRowId2;
-    if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
-        // Morning shift (07:00 - 18:59)
-        shiftRowId1 = `morning-shift-${tableIdPrefix}`;
-    } else {
-        // Night shift (19:00 - 06:59)
-        shiftRowId1 = `night-shift-${tableIdPrefix}`;
-        shiftRowId2 = `night-shift-${parseInt(tableIdPrefix) + 1}`; // This handles the second concurrent night shift
-    }
+            let shiftRowId1, shiftRowId2;
+            if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
+                shiftRowId1 = `morning-shift-${tableIdPrefix}`;
+            } else {
+                shiftRowId1 = `night-shift-${tableIdPrefix}`;
+                shiftRowId2 = `night-shift-${parseInt(tableIdPrefix) + 1}`;
+            }
 
-    // Highlight the correct cells in the appropriate table
-    const shiftCell1 = document.querySelector(`#${shiftRowId1} td:nth-child(${dayColumnIndex})`);
-    if (shiftCell1) {
-        shiftCell1.classList.add('current-shift');
-    }
+            const shiftCell1 = document.querySelector(`#${shiftRowId1} td:nth-child(${dayColumnIndex})`);
+            if (shiftCell1) {
+                shiftCell1.classList.add('current-shift');
+            }
 
-    // Highlight the second night shift if applicable
-    if (shiftRowId2) {
-        const shiftCell2 = document.querySelector(`#${shiftRowId2} td:nth-child(${dayColumnIndex})`);
-        if (shiftCell2) {
-            shiftCell2.classList.add('current-shift');
+            if (shiftRowId2) {
+                const shiftCell2 = document.querySelector(`#${shiftRowId2} td:nth-child(${dayColumnIndex})`);
+                if (shiftCell2) {
+                    shiftCell2.classList.add('current-shift');
+                }
+            }
         }
-    }
-}
 
-// Call the function initially
-highlightCurrentShift();
-
-// Optional: Refresh the check every 10 minutes
-setInterval(highlightCurrentShift, 10 * 60 * 1000);
+        highlightCurrentShift();
+        setInterval(highlightCurrentShift, 10 * 60 * 1000);
     </script>
 </body>
 </html>

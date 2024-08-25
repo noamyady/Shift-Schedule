@@ -168,65 +168,46 @@ function highlightCurrentShift() {
 
     // Extract current hour, date, and day in Israel time
     const currentHour = israelTime.getHours();
-    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
     const currentDate = israelTime.getDate(); // Get the current date of the month
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
-    // Define shift times
-    const morningShiftStart = 7;
-    const morningShiftEnd = 19;
-
-    // Adjust for the correct day for the night shift
-    let shiftDay = currentDay;
-
-    if (currentHour < morningShiftStart) {
-        // If it's between midnight and 7 AM, adjust to highlight the previous day's night shift
-        shiftDay = (currentDay - 1 + 7) % 7; // Ensure it wraps correctly to Saturday if it's Sunday
-    }
+    // Determine the shift type (morning or night)
+    let isMorningShift = currentHour >= 7 && currentHour < 19;
 
     // Determine which table to highlight
     let tableIdPrefix;
     if (currentDate >= 18 && currentDate <= 24) {
-        // First week schedule (18-24)
-        tableIdPrefix = '1';
+        tableIdPrefix = '1';  // First week
     } else if (currentDate >= 25 && currentDate <= 31) {
-        // Second week schedule (25-31)
-        tableIdPrefix = '2';
+        tableIdPrefix = '2';  // Second week
     } else {
-        // No highlighting if out of range
+        // If the current date is out of range, do nothing
         return;
     }
 
-    // Calculate the table column index based on the shiftDay
-    const dayColumnIndex = 7 - shiftDay; // Maps Sunday (0) to the last column (7), Monday (1) to column 6, etc.
+    // Calculate the column index for the current day (maps Sunday to the last column)
+    const dayColumnIndex = 7 - currentDay;
+
+    // Determine the correct shift row IDs
+    let kfarRowId = isMorningShift ? `morning-shift-${tableIdPrefix}` : `night-shift-${tableIdPrefix}`;
+    let mevaseretRowId = isMorningShift ? null : `night-shift-${tableIdPrefix === '1' ? 3 : 4}`;
 
     // Clear any previous highlights
     document.querySelectorAll('.current-shift').forEach(element => {
         element.classList.remove('current-shift');
     });
 
-    // Determine which shifts to highlight
-    let shiftRowIdKfar, shiftRowIdMevaseret;
-    if (currentHour >= morningShiftStart && currentHour < morningShiftEnd) {
-        // Morning shift (07:00 - 18:59)
-        shiftRowIdKfar = `morning-shift-${tableIdPrefix}`;
-        shiftRowIdMevaseret = null; // No corresponding morning shift for Mevaseret
-    } else {
-        // Night shift (19:00 - 06:59)
-        shiftRowIdKfar = `night-shift-${tableIdPrefix}`;
-        shiftRowIdMevaseret = `night-shift-${tableIdPrefix === '1' ? 3 : 4}`; // Adjust for Mevaseret's night shift row ID
+    // Highlight the current "כפר שמריהו" shift
+    const kfarCell = document.querySelector(`#${kfarRowId} td:nth-child(${dayColumnIndex})`);
+    if (kfarCell) {
+        kfarCell.classList.add('current-shift');
     }
 
-    // Highlight the correct cells for "כפר שמריהו"
-    const shiftCellKfar = document.querySelector(`#${shiftRowIdKfar} td:nth-child(${dayColumnIndex})`);
-    if (shiftCellKfar && currentDate === israelTime.getDate()) {
-        shiftCellKfar.classList.add('current-shift');
-    }
-
-    // Highlight the correct cells for "מבשרת ציון"
-    if (shiftRowIdMevaseret) {
-        const shiftCellMevaseret = document.querySelector(`#${shiftRowIdMevaseret} td:nth-child(${dayColumnIndex})`);
-        if (shiftCellMevaseret && currentDate === israelTime.getDate()) {
-            shiftCellMevaseret.classList.add('current-shift');
+    // Highlight the current "מבשרת ציון" shift if it's a night shift
+    if (mevaseretRowId) {
+        const mevaseretCell = document.querySelector(`#${mevaseretRowId} td:nth-child(${dayColumnIndex})`);
+        if (mevaseretCell) {
+            mevaseretCell.classList.add('current-shift');
         }
     }
 }

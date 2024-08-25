@@ -159,6 +159,41 @@
     </div>
 
     <script>
+</div>
+
+<script>
+function copyNextWeekToCurrent() {
+    // Get the current time in Israel's time zone
+    const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });
+    const israelTime = new Date(now);
+
+    // Extract current hour and day in Israel time
+    const currentHour = israelTime.getHours();
+    const currentDay = israelTime.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Check if the current time is between Sunday 7:00 and Wednesday 20:00
+    if ((currentDay === 0 && currentHour >= 7) || 
+        (currentDay > 0 && currentDay < 3) || 
+        (currentDay === 3 && currentHour <= 20)) {
+
+        // Copy next week's table to the current week
+        const currentWeekTable = document.querySelector('.schedule-container:first-of-type table');
+        const nextWeekTable = document.querySelector('.schedule-container:nth-of-type(2) table');
+        
+        // Replace the current week table's content with next week's content
+        currentWeekTable.innerHTML = nextWeekTable.innerHTML;
+
+        // Hide the next week's table
+        nextWeekTable.parentElement.style.display = 'none';
+    }
+}
+
+// Call the function to copy the next week to current and highlight shifts initially
+copyNextWeekToCurrent();
+highlightCurrentShift();
+
+
+        
 function highlightCurrentShift() {
     // Get the current time in Israel's time zone
     const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" });

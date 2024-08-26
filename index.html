@@ -113,6 +113,40 @@
     </div>
 
     <script>
+function highlightCurrentShift() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentDay = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+
+    // Select the shift rows
+    const morningShiftRow = document.getElementById('morning-shift-2');
+    const nightShift1Row = document.getElementById('night-shift-3');
+    const nightShift2Row = document.getElementById('night-shift-4');
+
+    // Remove any previous highlights
+    const allCells = document.querySelectorAll('td');
+    allCells.forEach(cell => {
+        cell.classList.remove('highlight-day', 'highlight-night');
+    });
+
+    // Highlight the specific cell based on the current time and day
+    if (currentHour >= 7 && currentHour < 19) {
+        // Day shift: 7 am - 7 pm (highlight cell in morning shift row)
+        morningShiftRow.children[currentDay].classList.add('highlight-day');
+    } else {
+        if {(currentHour > 19)
+            // Night shift: 7 pm - 7 am (highlight cells in night shift rows)
+            nightShift1Row.children[currentDay].classList.add('highlight-night');
+            nightShift2Row.children[currentDay].classList.add('highlight-night');
+        } else {
+            nightShift1Row.children[currentDay+1].classList.add('highlight-night');
+            nightShift2Row.children[currentDay+1].classList.add('highlight-night');
+        }
+    }
+}
+
+// Execute the function when the page loads
+window.onload = highlightCurrentShift;
 
     </script>
 </body>

@@ -134,13 +134,13 @@ function highlightCurrentShift() {
         // Day shift: 7 am - 7 pm (highlight cell in morning shift row)
         morningShiftRow.children[currentDay].classList.add('highlight-day');
     } else {
-        if {(currentHour > 19)
+        if (currentHour >= 19) {
             // Night shift: 7 pm - 7 am (highlight cells in night shift rows)
             nightShift1Row.children[currentDay].classList.add('highlight-night');
             nightShift2Row.children[currentDay].classList.add('highlight-night');
         } else {
-            nightShift1Row.children[currentDay+1].classList.add('highlight-night');
-            nightShift2Row.children[currentDay+1].classList.add('highlight-night');
+            nightShift1Row.children[(currentDay + 1) % 7].classList.add('highlight-night');
+            nightShift2Row.children[(currentDay + 1) % 7].classList.add('highlight-night');
         }
     }
 }

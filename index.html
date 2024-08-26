@@ -130,8 +130,8 @@ function highlightCurrentShift() {
     if (currentHour >= 7 && currentHour < 19) {
         // Day shift: 7 am - 7 pm
         morningShiftRow.classList.add('highlight-day');
-    } else {
-        // Night shift: 7 pm - 7 am (including before 7 am)
+    } else if (currentHour >= 19 || currentHour < 7) {
+        // Night shift: 7 pm - 7 am
         nightShift1Row.classList.add('highlight-night');
         nightShift2Row.classList.add('highlight-night');
     }
@@ -139,6 +139,7 @@ function highlightCurrentShift() {
 
 // Call the function when the page loads
 window.onload = highlightCurrentShift;
+
 
     </script>
 </body>

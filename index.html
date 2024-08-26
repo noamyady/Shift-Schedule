@@ -49,9 +49,11 @@
         .blue {
             background-color: #c6e2ff;
         }
-        .current-shift {
-            border: 2px solid #000000;
-            background-color: #D4F4DD;
+        .highlight-day {
+            background-color: #a8d5a5; /* Light green for day shift */
+        }
+        .highlight-night {
+            background-color: #a0c4ff; /* Light blue for night shift */
         }
         a {
             text-decoration: none;
@@ -110,11 +112,30 @@
         </table>
     </div>
 
-    <!-- Second Week's Schedule -->
-
-
     <script>
+        function highlightCurrentShift() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const morningShiftRow = document.getElementById('morning-shift-2');
+            const nightShift1Row = document.getElementById('night-shift-3');
+            const nightShift2Row = document.getElementById('night-shift-4');
 
+            if (currentHour >= 7 && currentHour < 19) {
+                // Day shift: 7 am - 7 pm
+                morningShiftRow.classList.add('highlight-day');
+            } else if (currentHour >= 0 && currentHour < 7) {
+                // Night shift (from previous day): 12 am - 7 am
+                nightShift1Row.classList.add('highlight-night');
+                nightShift2Row.classList.add('highlight-night');
+            } else {
+                // Night shift: 7 pm - 12 am
+                nightShift1Row.classList.add('highlight-night');
+                nightShift2Row.classList.add('highlight-night');
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = highlightCurrentShift;
     </script>
 </body>
 </html>

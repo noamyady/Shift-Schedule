@@ -139,8 +139,8 @@ function highlightCurrentShift() {
             nightShift1Row.children[currentDay].classList.add('highlight-night');
             nightShift2Row.children[currentDay].classList.add('highlight-night');
         } else {
-            nightShift1Row.children[(currentDay + 1) % 7].classList.add('highlight-night');
-            nightShift2Row.children[(currentDay + 1) % 7].classList.add('highlight-night');
+            nightShift1Row.children[(currentDay - 1) % 7].classList.add('highlight-night');
+            nightShift2Row.children[(currentDay - 1) % 7].classList.add('highlight-night');
         }
     }
 }

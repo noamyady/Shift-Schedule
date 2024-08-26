@@ -116,31 +116,29 @@
 function highlightCurrentShift() {
     const now = new Date();
     const currentHour = now.getHours();
-    console.log("Current Hour:", currentHour);
 
-    // Reset previous highlights
-    const allRows = document.querySelectorAll("tr");
-    allRows.forEach(row => {
-        row.classList.remove('highlight-day', 'highlight-night');
-    });
-
+    // Select the shift rows
     const morningShiftRow = document.getElementById('morning-shift-2');
     const nightShift1Row = document.getElementById('night-shift-3');
     const nightShift2Row = document.getElementById('night-shift-4');
 
+    // Remove any previous highlights
+    morningShiftRow.classList.remove('highlight-day', 'highlight-night');
+    nightShift1Row.classList.remove('highlight-day', 'highlight-night');
+    nightShift2Row.classList.remove('highlight-day', 'highlight-night');
+
+    // Determine which shift to highlight
     if (currentHour >= 7 && currentHour < 19) {
-        console.log("Highlighting day shift");
-        // Day shift: 7 am - 7 pm
+        // Between 7 am and 7 pm: highlight day shift
         morningShiftRow.classList.add('highlight-day');
-    } else if (currentHour >= 19 || currentHour < 7) {
-        console.log("Highlighting night shifts");
-        // Night shift: 7 pm - 7 am
+    } else {
+        // Between 7 pm and 7 am: highlight night shifts
         nightShift1Row.classList.add('highlight-night');
         nightShift2Row.classList.add('highlight-night');
     }
 }
 
-// Call the function when the page loads
+// Execute the function when the page loads
 window.onload = highlightCurrentShift;
 
     </script>

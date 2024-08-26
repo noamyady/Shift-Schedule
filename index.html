@@ -133,11 +133,11 @@ function highlightCurrentShift() {
     });
 
     // Highlight the specific cell based on the current time and adjusted day index
-    if (currentHour >= 7 && currentHour < 19) {
+    if (currentHour >= 7 && currentHour < 9) {
         // Day shift: 7 am - 7 pm (highlight cell in morning shift row)
         morningShiftRow.children[columnIndex].classList.add('highlight-day');
     } else {
-        if (currentHour >= 19) {
+        if (currentHour >= 9) {
             // Night shift: 7 pm - 7 am (highlight cells in night shift rows)
             nightShift1Row.children[columnIndex].classList.add('highlight-night');
             nightShift2Row.children[columnIndex].classList.add('highlight-night');

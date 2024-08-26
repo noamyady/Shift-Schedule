@@ -118,6 +118,9 @@ function highlightCurrentShift() {
     const currentHour = now.getHours();
     const currentDay = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 
+    // Convert currentDay to match your table's column index
+    const columnIndex = 7 - currentDay;
+
     // Select the shift rows
     const morningShiftRow = document.getElementById('morning-shift-2');
     const nightShift1Row = document.getElementById('night-shift-3');
@@ -129,24 +132,26 @@ function highlightCurrentShift() {
         cell.classList.remove('highlight-day', 'highlight-night');
     });
 
-    // Highlight the specific cell based on the current time and day
+    // Highlight the specific cell based on the current time and adjusted day index
     if (currentHour >= 7 && currentHour < 19) {
         // Day shift: 7 am - 7 pm (highlight cell in morning shift row)
-        morningShiftRow.children[8 - currentDay].classList.add('highlight-day');
+        morningShiftRow.children[columnIndex].classList.add('highlight-day');
     } else {
         if (currentHour >= 19) {
             // Night shift: 7 pm - 7 am (highlight cells in night shift rows)
-            nightShift1Row.children[8 - currentDay].classList.add('highlight-night');
-            nightShift2Row.children[8 - currentDay].classList.add('highlight-night');
+            nightShift1Row.children[columnIndex].classList.add('highlight-night');
+            nightShift2Row.children[columnIndex].classList.add('highlight-night');
         } else {
-            nightShift1Row.children[7 - currentDay].classList.add('highlight-night');
-            nightShift2Row.children[7 - currentDay].classList.add('highlight-night');
+            // Highlight the previous night shift for the early hours (midnight to 7 am)
+            nightShift1Row.children[(columnIndex - 1 + 7) % 7].classList.add('highlight-night');
+            nightShift2Row.children[(columnIndex - 1 + 7) % 7].classList.add('highlight-night');
         }
     }
 }
 
 // Execute the function when the page loads
 window.onload = highlightCurrentShift;
+
 
     </script>
 </body>

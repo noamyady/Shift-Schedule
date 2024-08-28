@@ -111,7 +111,8 @@
 
     <script>
 function highlightCurrentShift() {
-    const now = new Date();
+    // Adjust time to the specified time zone
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
     const currentHour = now.getHours();
     const currentDay = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
 

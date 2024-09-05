@@ -186,14 +186,26 @@ async function fetchShifts() {
             }
         }
 
-        // Extract the Sunday date for the current week from H7
-        const currentSundayDateStr = rows[6][7]?.trim();
-        const currentBaseDate = new Date(currentSundayDateStr);
-        if (isNaN(currentBaseDate)) {
-            throw new Error('Invalid date in H7');
+        // Extract the Sunday date for the current and next weeks
+        let currentSundayDateStr;
+        let nextSundayDateStr;
+        
+        // Check if next week's schedule is valid (H12)
+        if (rows[11][7]?.trim()) {
+            currentSundayDateStr = rows[11][7]?.trim(); // H12 becomes current week
+            nextSundayDateStr = rows[6][7]?.trim();    // H7 becomes next week
+        } else {
+            currentSundayDateStr = rows[6][7]?.trim(); // Default to H7 as current week
         }
 
-        // Update the dates for the current week
+        const currentBaseDate = new Date(currentSundayDateStr);
+        const nextBaseDate = new Date(nextSundayDateStr);
+
+        if (isNaN(currentBaseDate)) {
+            throw new Error('Invalid date for current week');
+        }
+
+        // Update current week dates
         if (document.getElementById('date-sun-current')) {
             document.getElementById('date-sun-current').textContent = formatDate(currentBaseDate);
             document.getElementById('date-mon-current').textContent = formatDate(addDays(currentBaseDate, 1));
@@ -202,6 +214,18 @@ async function fetchShifts() {
             document.getElementById('date-thu-current').textContent = formatDate(addDays(currentBaseDate, 4));
             document.getElementById('date-fri-current').textContent = formatDate(addDays(currentBaseDate, 5));
             document.getElementById('date-sat-current').textContent = formatDate(addDays(currentBaseDate, 6));
+        }
+
+        // Update next week dates if valid
+        if (!isNaN(nextBaseDate) && document.getElementById('date-sun-next')) {
+            document.getElementById('next-week-table').style.display = 'block';
+            document.getElementById('date-sun-next').textContent = formatDate(nextBaseDate);
+            document.getElementById('date-mon-next').textContent = formatDate(addDays(nextBaseDate, 1));
+            document.getElementById('date-tue-next').textContent = formatDate(addDays(nextBaseDate, 2));
+            document.getElementById('date-wed-next').textContent = formatDate(addDays(nextBaseDate, 3));
+            document.getElementById('date-thu-next').textContent = formatDate(addDays(nextBaseDate, 4));
+            document.getElementById('date-fri-next').textContent = formatDate(addDays(nextBaseDate, 5));
+            document.getElementById('date-sat-next').textContent = formatDate(addDays(nextBaseDate, 6));
         }
 
         // Function to format dates as dd.mm
@@ -216,42 +240,6 @@ async function fetchShifts() {
             const result = new Date(date);
             result.setDate(result.getDate() + days);
             return result;
-        }
-
-        // Check for next week's schedule in H12
-        const nextSundayDateStr = rows[11][7]?.trim();
-        if (nextSundayDateStr) {
-            // Show the next week's schedule if a valid date is present in H12
-            document.getElementById('next-week-table').style.display = 'block';
-            document.getElementById('current-week-title').textContent = 'משמרות לשבוע זה';
-            document.getElementById('next-week-title').textContent = 'משמרות לשבוע הבא';
-
-            // Current week is rows 12-15
-            const currentWeekRows = [rows[12], rows[13], rows[14]];
-            updateShiftTable(currentWeekRows, 'current');
-
-            // Next week is rows 7-10
-            const nextWeekRows = [rows[7], rows[8], rows[9]];
-            updateShiftTable(nextWeekRows, 'next');
-
-            // Update the dates for the next week
-            const nextBaseDate = new Date(nextSundayDateStr);
-            if (document.getElementById('date-sun-next')) {
-                document.getElementById('date-sun-next').textContent = formatDate(nextBaseDate);
-                document.getElementById('date-mon-next').textContent = formatDate(addDays(nextBaseDate, 1));
-                document.getElementById('date-tue-next').textContent = formatDate(addDays(nextBaseDate, 2));
-                document.getElementById('date-wed-next').textContent = formatDate(addDays(nextBaseDate, 3));
-                document.getElementById('date-thu-next').textContent = formatDate(addDays(nextBaseDate, 4));
-                document.getElementById('date-fri-next').textContent = formatDate(addDays(nextBaseDate, 5));
-                document.getElementById('date-sat-next').textContent = formatDate(addDays(nextBaseDate, 6));
-            }
-        } else {
-            // If no next week schedule, treat the current table (rows 7-10) as the current week
-            document.getElementById('current-week-title').textContent = 'משמרות לשבוע זה';
-
-            // Show only the current week (rows 7-10)
-            const currentWeekRows = [rows[7], rows[8], rows[9]];
-            updateShiftTable(currentWeekRows, 'current');
         }
 
         // Map the names from specific rows (shift assignments) to table cells
@@ -298,6 +286,16 @@ async function fetchShifts() {
             updateShiftCell(nightLoc2Shift[4], `tue-night-loc2-${weekType}`);
             updateShiftCell(nightLoc2Shift[5], `mon-night-loc2-${weekType}`);
             updateShiftCell(nightLoc2Shift[6], `sun-night-loc2-${weekType}`);
+        }
+
+        // Handle current week
+        const currentWeekRows = rows[6]?.length > 0 ? [rows[12], rows[13], rows[14]] : [rows[7], rows[8], rows[9]];
+        updateShiftTable(currentWeekRows, 'current');
+
+        // Handle next week if it exists
+        if (nextSundayDateStr && !isNaN(nextBaseDate)) {
+            const nextWeekRows = [rows[7], rows[8], rows[9]];
+            updateShiftTable(nextWeekRows, 'next');
         }
 
         document.getElementById('status-message').textContent = 'הסידור מעודכן';

@@ -146,7 +146,6 @@
 
     <script>
 function highlightCurrentShift() {
-    // Get the current time in Israel
     const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
     const currentHour = now.getHours();
     const currentDay = now.getDay();
@@ -159,7 +158,6 @@ function highlightCurrentShift() {
     const allCells = document.querySelectorAll('td');
     allCells.forEach(cell => cell.classList.remove('highlight-day', 'highlight-night'));
 
-    // Highlight current shift
     if (currentHour >= 7 && currentHour < 19) {
         morningShiftRow.children[columnIndex].classList.add('highlight');
     } else {
@@ -173,34 +171,29 @@ function highlightCurrentShift() {
     }
 
     // Extract the date from the last valid column (before "משמרות")
-    const lastDayElement = document.querySelector('table:first-of-type th:nth-last-child(8)');
+    const lastDayElement = document.querySelector('table:first-of-type th:nth-last-child(8)'); // second to last 'th' column before "משמרות"
     
+    // Check if element is found
     if (lastDayElement) {
-        const lastDayParts = lastDayElement.innerHTML.split('<br>'); 
-        const lastDayDate = lastDayParts[1]; 
-        const [day, month] = lastDayDate.split('.'); 
+        console.log("Last day element found:", lastDayElement.innerHTML); // Log to see the content
+        const lastDayParts = lastDayElement.innerHTML.split('<br>'); // Split the date part (e.g., "12.10")
+        const lastDayDate = lastDayParts[1]; // Get the date part (e.g., "12.10")
+        const [day, month] = lastDayDate.split('.'); // Split it into day and month
 
-        const year = now.getFullYear(); 
+        const year = now.getFullYear(); // Get the current year
 
-        // Create a Date object for 7 AM on the next day in Israel
-        const nextDayAt7AM = new Date(new Date(`${year}-${month}-${day}T07:00:00`).toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
-        nextDayAt7AM.setDate(nextDayAt7AM.getDate() + 1); 
+        // Create a Date object for 7 AM on the next day, explicitly setting the time to Israel's time zone
+        const nextDayAt7AM = new Date(new Date(${year}-${month}-${day}T07:00:00).toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
+        nextDayAt7AM.setDate(nextDayAt7AM.getDate() + 1); // Move to the next day
 
         // Recreate the date after setting the next day to ensure the correct time zone
         const nextDayAt7AMIsrael = new Date(nextDayAt7AM.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
 
-        // Display the current time and trigger time on the page
-        const indicator = document.createElement('div');
-        indicator.style.margin = '20px';
-        indicator.style.fontSize = '16px';
-        indicator.style.textAlign = 'center';
-        indicator.innerHTML = `<p><strong>Current Time (Israel):</strong> ${now.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" })}</p>
-                               <p><strong>Trigger Time (Israel, 7 AM next day):</strong> ${nextDayAt7AMIsrael.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" })}</p>`;
-        document.body.appendChild(indicator);
+        console.log("Next day at 7 AM (Israel):", nextDayAt7AMIsrael); // Log to verify the date
 
         // Compare with the current date in Israel
         if (now > nextDayAt7AMIsrael) {
-            document.querySelector('.schedule-container').style.display = 'none'; 
+            document.querySelector('.schedule-container').style.display = 'none'; // Hide first table container
         }
     } else {
         console.error("Last day element not found.");

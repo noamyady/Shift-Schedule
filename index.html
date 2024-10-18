@@ -169,9 +169,38 @@ function highlightCurrentShift() {
             nightShift2Row.children[(columnIndex + 1) % 7].classList.add('highlight');
         }
     }
+
+    // Extract the date from the last valid column (before "משמרות")
+    const lastDayElement = document.querySelector('table:first-of-type th:nth-last-child(8)'); // second to last 'th' column before "משמרות"
+    
+    // Check if element is found
+    if (lastDayElement) {
+        console.log("Last day element found:", lastDayElement.innerHTML); // Log to see the content
+        const lastDayParts = lastDayElement.innerHTML.split('<br>'); // Split the date part (e.g., "12.10")
+        const lastDayDate = lastDayParts[1]; // Get the date part (e.g., "12.10")
+        const [day, month] = lastDayDate.split('.'); // Split it into day and month
+
+        const year = now.getFullYear(); // Get the current year
+
+        // Create a Date object for 7 AM on the next day, explicitly setting the time to Israel's time zone
+        const nextDayAt7AM = new Date(new Date(`${year}-${month}-${day}T07:00:00`).toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
+        nextDayAt7AM.setDate(nextDayAt7AM.getDate() + 1); // Move to the next day
+
+        // Recreate the date after setting the next day to ensure the correct time zone
+        const nextDayAt7AMIsrael = new Date(nextDayAt7AM.toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
+
+        console.log("Next day at 7 AM (Israel):", nextDayAt7AMIsrael); // Log to verify the date
+
+        // Compare with the current date in Israel
+        if (now > nextDayAt7AMIsrael) {
+            document.querySelector('.schedule-container').style.display = 'none'; // Hide first table container
+        }
+    } else {
+        console.error("Last day element not found.");
+    }
 }
 
 window.onload = highlightCurrentShift;
-    </script>
+</script>
 </body>
 </html>
